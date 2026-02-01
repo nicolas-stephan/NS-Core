@@ -131,7 +131,7 @@ Add the following to your `manifest.json` in the `Packages` folder:
 ```json
 {
   "dependencies": {
-    "com.ns.core": "https://github.com/nicolas-stephan/Core.git?path=/Assets/Core"
+    "com.ns.core": "https://github.com/nicolas-stephan/NS-Core.git?path=/Assets/Core"
   }
 }
 ```
@@ -140,7 +140,7 @@ Or use Unity's Package Manager:
 1. Open **Window > Package Manager**
 2. Click the **+** button
 3. Select **Add package from git URL**
-4. Enter: `https://github.com/nicolas-stephan/Core.git?path=/Assets/Core`
+4. Enter: `https://github.com/nicolas-stephan/NS-Core.git?path=/Assets/Core`
 
 ### Dependencies
 
@@ -183,8 +183,6 @@ public class GameManager : PersistentSingleton<GameManager> {
     }
 }
 ```
-
-## 
 
 ## Accessing Samples in Unity (via Symlink)
 
@@ -236,4 +234,4 @@ SOFTWARE.
 
 ## Contributing
 
-Contributions are welcome! Please submit issues and pull requests to the [GitHub repository](https://github.com/nicolas-stephan/Core).
+Contributions are welcome! Please submit issues and pull requests to the [GitHub repository](https://github.com/nicolas-stephan/NS-Core).
