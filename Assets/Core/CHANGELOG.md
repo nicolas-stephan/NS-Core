@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/nicolas-stephan/Core/compare/v1.0.0...v1.1.0) (2026-02-01)
+
+
+### Features
+
+* add SceneField utility for type-safe scene references ([f515909](https://github.com/nicolas-stephan/Core/commit/f5159091f80e8a508a0eaa07f58128739d9a308a))
+
 # 1.0.0 (2026-02-01)
 
 
