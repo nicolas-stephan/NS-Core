@@ -184,6 +184,20 @@ public class GameManager : PersistentSingleton<GameManager> {
 }
 ```
 
+## 
+
+## Accessing Samples in Unity (via Symlink)
+
+Unity ignores folders ending with `~`, so the samples live in `Assets/Core/Samples~`.
+To make them accessible inside the editor, create a symbolic link that points to this folder.
+
+For example, link the samples to `Assets/Examples`:
+
+```shell
+mklink /D "Assets\Examples" "Core\Samples~"
+```
+Run this command from the project root in a Command Prompt with Administrator rights.
+
 ## CI/CD Pipeline Setup – Required Secrets
 
 This project uses GameCI (https://game.ci) in GitHub Actions.
