@@ -1,0 +1,21 @@
+plugins:
+  - '@semantic-release/github'
+  - '@semantic-release/release-notes-generator'
+  - '@semantic-release/commit-analyzer'
+  - - '@semantic-release/exec'
+    - prepareCmd: "sed -i -e '/AssemblyVersion/s/\".*\"/\"${nextRelease.version}\"/' 
+        Assets/Core/Runtime/AssemblyInfo.cs
+        Assets/Core/Editor/AssemblyInfo.cs
+        Assets/Core/Samples~/AssemblyInfo.cs"
+  - - '@semantic-release/changelog'
+    - changelogFile: 'Assets/Core/CHANGELOG.md'
+  - - '@semantic-release/npm'
+    - npmPublish: false
+      pkgRoot: "Assets/Core"
+  - - '@semantic-release/git'
+    - assets:
+        - 'Assets/Core/Editor/AssemblyInfo.cs'
+        - 'Assets/Core/Runtime/AssemblyInfo.cs'
+        - 'Assets/Core/Samples~/AssemblyInfo.cs'
+        - 'Assets/Core/package.json'
+        - 'Assets/Core/CHANGELOG.md'

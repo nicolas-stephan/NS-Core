@@ -1,0 +1,31 @@
+{
+  "name": "NS.Core",
+  "rootNamespace": "NS",
+  "references": [
+    "Unity.Addressables",
+    "Unity.Addressables.Editor",
+    "Unity.ResourceManager",
+    "UniTask",
+    "UniTask.Addressables"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": true,
+  "overrideReferences": true,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [
+    {
+      "name": "com.cysharp.unitask",
+      "expression": "",
+      "define": "USING_UNITASK"
+    },
+    {
+      "name": "com.unity.addressables",
+      "expression": "",
+      "define": "USING_ADDRESSABLES"
+    }
+  ],
+  "noEngineReferences": false
+}
