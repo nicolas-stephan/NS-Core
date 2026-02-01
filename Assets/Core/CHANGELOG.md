@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/nicolas-stephan/NS-Core/compare/v1.1.0...v1.1.1) (2026-02-01)
+
+
+### Bug Fixes
+
+* update repository URLs from Core to NS-Core ([06e09a0](https://github.com/nicolas-stephan/NS-Core/commit/06e09a057673ad2a04ff49f0ac83f0e04462a82c))
+
 # [1.1.0](https://github.com/nicolas-stephan/NS-Core/compare/v1.0.0...v1.1.0) (2026-02-01)
 
 
