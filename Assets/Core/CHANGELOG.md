@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/nicolas-stephan/NS-Core/compare/v1.1.1...v1.1.2) (2026-02-03)
+
+
+### Bug Fixes
+
+* wrap UnityEditor imports with UNITY_EDITOR guard ([30724b9](https://github.com/nicolas-stephan/NS-Core/commit/30724b9bc5b77d7e3d2adb0124495c59973afd3a))
+
 ## [1.1.1](https://github.com/nicolas-stephan/NS-Core/compare/v1.1.0...v1.1.1) (2026-02-01)
 
 
