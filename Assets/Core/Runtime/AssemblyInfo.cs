@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-[assembly: AssemblyVersion("1.1.2")]
+[assembly: AssemblyVersion("1.1.3")]
 
 [assembly: InternalsVisibleTo("NS.Core.Editor")]
 [assembly: InternalsVisibleTo("Core.Tests")]
