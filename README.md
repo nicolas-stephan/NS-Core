@@ -100,16 +100,39 @@ Mark fields as read-only in the Inspector:
 
 ### Code Generation
 
-The `CodeWriter` utility provides a fluent API for generating C# code programmatically:
+The `CodeWriter` utility provides a fluent API for generating C# code programmatically with automatic indentation management:
 
 ```csharp
+using NS.Core.Editor.CodeWriter;
+
 var writer = new CodeWriter();
-writer.WriteUsing("UnityEngine")
-      .WriteNamespace("MyGame")
-      .BeginClass("MyClass", "MonoBehaviour")
-      .WriteLine("// Generated code")
-      .EndClass();
+writer.WriteLine("using UnityEngine;");
+writer.WriteLine();
+
+using (writer.Namespace("MyGame")) {
+    using (writer.Class("public", "MyClass", "MonoBehaviour")) {
+        writer.WriteLine("private int _value;");
+
+        using (writer.Method("private void Start()")) {
+            writer.WriteLine("Debug.Log(\"Hello\");");
+        }
+    }
+}
+
+string code = writer.ToString();
 ```
+
+**Core Methods:**
+- `WriteLine(string)` - Writes a line with proper indentation
+- `Write(string)` - Writes text with indentation (no trailing newline)
+- `Block(string header)` - Creates a braced block; uses `IDisposable` for automatic closing
+
+**Extension Methods:**
+- `Namespace(string name)` - Creates a namespace block
+- `Class(string modifiers, string name, string? inheritance)` - Creates a class block
+- `Method(string signature)` - Creates a method block
+- `If(string condition)` / `Else()` - Creates conditional blocks
+- `Region(string name)` - Creates a `#region`/`#endregion` block
 
 ### Assembly Utilities
 
