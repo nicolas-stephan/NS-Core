@@ -169,10 +169,6 @@ Or use Unity's Package Manager:
 
 This package requires:
 - **Unity 6000.2.13f1** or later
-- **UniTask** (com.cysharp.unitask 2.5.10)
-- **Addressables** (com.unity.addressables 2.7.4)
-
-These dependencies are automatically resolved when installing the package.
 
 ## Usage Example
 

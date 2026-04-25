@@ -1,6 +1,5 @@
-﻿#if USING_UNITASK && USING_ADDRESSABLES
+﻿#if USING_ADDRESSABLES
 using System;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -32,19 +31,18 @@ namespace NS.Core.Utils {
         /// <summary>
         /// Loads the ScriptableObject instance asynchronously if not already loaded.
         /// </summary>
-        public static async UniTask InitializeAsync() {
+        public static async Awaitable InitializeAsync() {
             if (_instance != null)
                 return;
 
             var handle = Addressables.LoadAssetAsync<T>(typeof(T).Name);
             _handle = handle;
-            await handle.Task.AsUniTask();
-            if (handle.Status == AsyncOperationStatus.Succeeded) {
-                _instance = handle.Result;
-                return;
-            }
+            await handle.Task;
 
-            Debug.LogError($"Failed to load Addressable ScriptableObject '{typeof(T).Name}'");
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+                _instance = handle.Result;
+            else
+                Debug.LogError($"Failed to load Addressable ScriptableObject '{typeof(T).Name}'");
         }
 
         public static void InitializeSync() {
