@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/nicolas-stephan/NS-Core/compare/v1.1.3...v1.2.0) (2026-04-26)
+
+
+### Features
+
+* implement save system framework and unit tests ([1907a0f](https://github.com/nicolas-stephan/NS-Core/commit/1907a0fc0689a8638f9fec364317009e969de013))
+
 ## [1.1.3](https://github.com/nicolas-stephan/NS-Core/compare/v1.1.2...v1.1.3) (2026-02-05)
 
 
