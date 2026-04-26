@@ -1,9 +1,11 @@
 {
-  "name": "Core.Tests",
+  "name": "NS.Core.Tests.Editor",
+  "rootNamespace": "NS.Core.Tests",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
-    "NS.Core"
+    "NS.Core",
+    "NS.Core.SaveSystem"
   ],
   "includePlatforms": [
     "Editor"

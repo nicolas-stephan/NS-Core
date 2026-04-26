@@ -4,7 +4,7 @@ using System.Text;
 namespace NS.Core.Editor.CodeWriter {
     public class CodeWriter {
         private const string IndentString = "    ";
-        
+
         private readonly StringBuilder _sb = new();
         private int _indentLevel;
 
@@ -29,11 +29,11 @@ namespace NS.Core.Editor.CodeWriter {
             return new BlockHandle(this);
         }
 
-        public override string ToString() => _sb.ToString();
+        public override string ToString() { return _sb.ToString(); }
 
         private class BlockHandle : IDisposable {
             private readonly CodeWriter _writer;
-            public BlockHandle(CodeWriter writer) => _writer = writer;
+            public BlockHandle(CodeWriter writer) { _writer = writer; }
 
             public void Dispose() {
                 _writer._indentLevel--;

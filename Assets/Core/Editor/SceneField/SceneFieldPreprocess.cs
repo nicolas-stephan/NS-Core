@@ -11,64 +11,13 @@ using Object = UnityEngine.Object;
 
 namespace NS.Core.Editor.SceneField {
     /// <summary>
-    /// Preprocesses build by validating and baking SceneField references in assets and scenes.
-    /// Ensures runtime scene names are up-to-date and that referenced scenes are included in Build Settings.
+    ///     Preprocesses build by validating and baking SceneField references in assets and scenes.
+    ///     Ensures runtime scene names are up-to-date and that referenced scenes are included in Build Settings.
     /// </summary>
     public class SceneFieldPreprocess : IPreprocessBuildWithReport {
-        private readonly struct Details : IEquatable<Details> {
-            public readonly Object Target;
-            public readonly string SceneGuid;
-            public readonly string ContainerPath;
-
-            public Details(Object target, string sceneGuid, string containerPath) {
-                Target = target;
-                SceneGuid = sceneGuid;
-                ContainerPath = containerPath;
-            }
-
-            public bool Equals(Details other) => SceneGuid == other.SceneGuid && ContainerPath == other.ContainerPath;
-            public override bool Equals(object obj) => obj is Details other && Equals(other);
-            public override int GetHashCode() => HashCode.Combine(SceneGuid, ContainerPath);
-        }
-
         private const string AssetSearchFilter = "t:ScriptableObject t:Prefab";
 
-        #region Build Preprocess Entry
-
-        public int callbackOrder => 1;
-
-        public void OnPreprocessBuild(BuildReport report) {
-            var enabledScenePaths = GetEnabledScenePaths();
-            var usedSceneGuids = new HashSet<Details>();
-            var issues = new List<string>();
-
-            ScanAssetsForSceneFields(usedSceneGuids);
-            ProcessScenesInBuild(enabledScenePaths, usedSceneGuids);
-            CheckIfUsedSceneAreEnabled(enabledScenePaths, usedSceneGuids, issues);
-            if (issues.Count > 0)
-                throw new BuildFailedException("Build blocked: Some SceneField references are invalid or point to scenes not in Build Settings:\n" +
-                                               string.Join("\n", issues.Distinct()));
-
-            AssetDatabase.SaveAssets();
-        }
-
-        private void CheckIfUsedSceneAreEnabled(string[] enabledScenePaths, HashSet<Details> usedSceneGuids, List<string> issues) {
-            foreach (var details in usedSceneGuids) {
-                var path = AssetDatabase.GUIDToAssetPath(details.SceneGuid);
-                if (enabledScenePaths.Contains(path))
-                    continue;
-                var objectName = details.Target.name;
-                var objectType = details.Target.GetType().Name;
-                var selectionHint = $"{details.ContainerPath} | {objectType} \"{objectName}\"";
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-                issues.Add($"- {selectionHint} -> references scene '{sceneAsset.name}' not found in Build Settings.");
-            }
-        }
-
-        #endregion
-
         #region Asset Processing
-
         private static void ScanAssetsForSceneFields(HashSet<Details> usedSceneGuids) {
             var assetGuids = AssetDatabase.FindAssets(AssetSearchFilter);
             foreach (var guid in assetGuids) {
@@ -98,11 +47,59 @@ namespace NS.Core.Editor.SceneField {
                     }
             }
         }
+        #endregion
 
+        private readonly struct Details : IEquatable<Details> {
+            public readonly Object Target;
+            public readonly string SceneGuid;
+            public readonly string ContainerPath;
+
+            public Details(Object target, string sceneGuid, string containerPath) {
+                Target = target;
+                SceneGuid = sceneGuid;
+                ContainerPath = containerPath;
+            }
+
+            public bool Equals(Details other) { return SceneGuid == other.SceneGuid && ContainerPath == other.ContainerPath; }
+
+            public override bool Equals(object obj) { return obj is Details other && Equals(other); }
+
+            public override int GetHashCode() { return HashCode.Combine(SceneGuid, ContainerPath); }
+        }
+
+        #region Build Preprocess Entry
+        public int callbackOrder => 1;
+
+        public void OnPreprocessBuild(BuildReport report) {
+            var enabledScenePaths = GetEnabledScenePaths();
+            var usedSceneGuids = new HashSet<Details>();
+            var issues = new List<string>();
+
+            ScanAssetsForSceneFields(usedSceneGuids);
+            ProcessScenesInBuild(enabledScenePaths, usedSceneGuids);
+            CheckIfUsedSceneAreEnabled(enabledScenePaths, usedSceneGuids, issues);
+            if (issues.Count > 0)
+                throw new BuildFailedException("Build blocked: Some SceneField references are invalid or point to scenes not in Build Settings:\n" +
+                                               string.Join("\n", issues.Distinct()));
+
+            AssetDatabase.SaveAssets();
+        }
+
+        private void CheckIfUsedSceneAreEnabled(string[] enabledScenePaths, HashSet<Details> usedSceneGuids, List<string> issues) {
+            foreach (var details in usedSceneGuids) {
+                var path = AssetDatabase.GUIDToAssetPath(details.SceneGuid);
+                if (enabledScenePaths.Contains(path))
+                    continue;
+                var objectName = details.Target.name;
+                var objectType = details.Target.GetType().Name;
+                var selectionHint = $"{details.ContainerPath} | {objectType} \"{objectName}\"";
+                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
+                issues.Add($"- {selectionHint} -> references scene '{sceneAsset.name}' not found in Build Settings.");
+            }
+        }
         #endregion
 
         #region Scene Processing
-
         private static void ProcessScenesInBuild(string[] enabledScenePaths, HashSet<Details> usedSceneGuids) {
             var setup = EditorSceneManager.GetSceneManagerSetup();
             var originalActiveScene = SceneManager.GetActiveScene();
@@ -132,16 +129,15 @@ namespace NS.Core.Editor.SceneField {
 
             var sceneModified = false;
             try {
-                foreach (var root in scene.GetRootGameObjects()) {
-                    foreach (var comp in root.GetComponentsInChildren<Component>(true)) {
-                        if (comp == null)
-                            continue;
-                        if (BakeAndValidateSceneFields(comp, out var sceneGuid))
-                            sceneModified = true;
+                foreach (var root in scene.GetRootGameObjects())
+                foreach (var comp in root.GetComponentsInChildren<Component>(true)) {
+                    if (comp == null)
+                        continue;
+                    if (BakeAndValidateSceneFields(comp, out var sceneGuid))
+                        sceneModified = true;
 
-                        if (!string.IsNullOrEmpty(sceneGuid))
-                            usedSceneGuids.Add(new Details(comp, sceneGuid, scenePath));
-                    }
+                    if (!string.IsNullOrEmpty(sceneGuid))
+                        usedSceneGuids.Add(new Details(comp, sceneGuid, scenePath));
                 }
 
                 if (!sceneModified)
@@ -175,11 +171,9 @@ namespace NS.Core.Editor.SceneField {
             if (SceneManager.sceneCount == 0)
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         }
-
         #endregion
 
         #region SerializedProperty Helpers and Baking
-
         private static bool BakeAndValidateSceneFields(Object target, out string usedSceneGuid) {
             var modified = false;
             usedSceneGuid = string.Empty;
@@ -234,16 +228,15 @@ namespace NS.Core.Editor.SceneField {
                     sceneNameProperty = copy.Copy();
             } while (copy.NextVisible(false));
         }
-
         #endregion
 
         #region Utilities
-
-        private static string[] GetEnabledScenePaths() =>
-            EditorBuildSettings.scenes
+        private static string[] GetEnabledScenePaths() {
+            return EditorBuildSettings.scenes
                 .Where(s => s.enabled)
                 .Select(s => s.path)
                 .ToArray();
+        }
 
         private static SceneAsset? GetSceneAsset(SerializedProperty guidProperty) {
             if (string.IsNullOrEmpty(guidProperty.stringValue))
@@ -259,7 +252,6 @@ namespace NS.Core.Editor.SceneField {
             pRuntimeSceneName.stringValue = sceneAsset.name;
             return true;
         }
-
         #endregion
     }
 }

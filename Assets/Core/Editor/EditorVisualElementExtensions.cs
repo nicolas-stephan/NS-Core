@@ -15,8 +15,7 @@ namespace NS.Core.Editor {
             return AssetDatabase.LoadAssetAtPath<T>(path);
         }
 
-        public static void LoadStylesheetFromName(this VisualElement element, string name)
-            => element.styleSheets.Add(LoadAssetFromName<StyleSheet>("StyleSheet", name));
+        public static void LoadStylesheetFromName(this VisualElement element, string name) { element.styleSheets.Add(LoadAssetFromName<StyleSheet>("StyleSheet", name)); }
 
         public static void BuildFromName(out VisualElement target, string name) {
             var asset = LoadAssetFromName<VisualTreeAsset>("VisualTreeAsset", name);

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using UnityEditor;
 
 namespace NS.Core.Editor {
@@ -7,17 +8,16 @@ namespace NS.Core.Editor {
             string[] path = property.propertyPath.Split('.');
             object? obj = property.serializedObject.targetObject;
 
-            foreach (var member in path) {
+            foreach (var member in path)
                 if (member.Contains("[")) {
                     var arrayName = member[..member.IndexOf('[')];
                     var index = int.Parse(member.Substring(member.IndexOf('[') + 1, member.IndexOf(']') - member.IndexOf('[') - 1));
                     obj = GetFieldOrPropertyValue(obj, arrayName);
-                    if (obj is System.Collections.IList list)
+                    if (obj is IList list)
                         obj = list[index];
                 } else {
                     obj = GetFieldOrPropertyValue(obj, member);
                 }
-            }
 
             return obj;
         }

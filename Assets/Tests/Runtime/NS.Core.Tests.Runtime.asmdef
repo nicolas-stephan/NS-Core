@@ -1,5 +1,6 @@
 {
-  "name": "Core.Tests.Runtime",
+  "name": "NS.Core.Tests.Runtime",
+  "rootNamespace": "NS.Core.Tests",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",

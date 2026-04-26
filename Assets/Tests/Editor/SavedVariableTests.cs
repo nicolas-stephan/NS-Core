@@ -1,11 +1,10 @@
 ﻿using System;
-using NS.Core;
 using NS.Core.SavedVariables;
 using NUnit.Framework;
 
-namespace Tests.Editor {
+namespace NS.Core.Tests.Editor {
     public class SavedVariableTests {
-        private static string NewKey(string name) => $"Common.Tests.{name}.{Guid.NewGuid()}";
+        private static string NewKey(string name) { return $"Common.Tests.{name}.{Guid.NewGuid()}"; }
 
         [SetUp]
         public void Setup() {
@@ -19,7 +18,7 @@ namespace Tests.Editor {
             var a = new SavedInt(key, 7);
             Assert.AreEqual(7, a.Value, "First access should initialize to default when no stored value exists");
 
-            int changedTo = -1;
+            var changedTo = -1;
             a.OnChanged += v => changedTo = v;
             a.Value = 10;
             Assert.AreEqual(10, a.Value);
@@ -38,17 +37,12 @@ namespace Tests.Editor {
         [Test]
         public void SavedBool_PersistsAcrossInstances() {
             var key = NewKey(nameof(SavedBool_PersistsAcrossInstances));
-            var a = new SavedBool(key, false);
+            var a = new SavedBool(key);
             Assert.IsFalse(a.Value);
             a.Value = true;
 
-            var b = new SavedBool(key, false);
+            var b = new SavedBool(key);
             Assert.IsTrue(b.Value);
-        }
-
-        private class MyConfig {
-            public int Count;
-            public string Name = string.Empty;
         }
 
         [Test]
@@ -66,6 +60,11 @@ namespace Tests.Editor {
             var b = new SavedClass<MyConfig>(key, def);
             Assert.AreEqual(99, b.Value.Count);
             Assert.AreEqual("hello", b.Value.Name);
+        }
+
+        private class MyConfig {
+            public int Count;
+            public string Name = string.Empty;
         }
     }
 }

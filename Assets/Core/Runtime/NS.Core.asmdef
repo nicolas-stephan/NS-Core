@@ -1,12 +1,10 @@
 {
   "name": "NS.Core",
-  "rootNamespace": "NS",
+  "rootNamespace": "NS.Core",
   "references": [
     "Unity.Addressables",
     "Unity.Addressables.Editor",
-    "Unity.ResourceManager",
-    "UniTask",
-    "UniTask.Addressables"
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

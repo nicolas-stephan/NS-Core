@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace NS.Core.Editor {
     public static class EditorPathUtils {
-        public static string GetFolderPath(ScriptableObject target) => GetDirectory(MonoScript.FromScriptableObject(target));
+        public static string GetFolderPath(ScriptableObject target) { return GetDirectory(MonoScript.FromScriptableObject(target)); }
 
-        public static string GetFolderPath(MonoBehaviour target) => GetDirectory(MonoScript.FromMonoBehaviour(target));
+        public static string GetFolderPath(MonoBehaviour target) { return GetDirectory(MonoScript.FromMonoBehaviour(target)); }
 
         private static string GetDirectory(MonoScript script) {
             if (script == null)

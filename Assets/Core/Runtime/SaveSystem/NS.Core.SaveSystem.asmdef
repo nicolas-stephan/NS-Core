@@ -1,12 +1,12 @@
 {
-  "name": "NS.Core.Editor",
-  "rootNamespace": "NS.Core.Editor",
+  "name": "NS.Core.SaveSystem",
+  "rootNamespace": "NS.Core.SaveSystem",
   "references": [
-    "NS.Core"
+    "Unity.Addressables",
+    "Unity.Addressables.Editor",
+    "Unity.ResourceManager"
   ],
-  "includePlatforms": [
-    "Editor"
-  ],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": true,
   "overrideReferences": true,
