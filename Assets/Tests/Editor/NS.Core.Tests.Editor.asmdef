@@ -1,6 +1,6 @@
 {
   "name": "NS.Core.Tests.Editor",
-  "rootNamespace": "NS.Core.Tests",
+  "rootNamespace": "NS.Core.Tests.Editor",
   "references": [
     "UnityEngine.TestRunner",
     "UnityEditor.TestRunner",
